@@ -4,61 +4,69 @@ class WalletForm extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      password: '',
+      email: {
+        isValid: false,
+        input: '',
+      },
+      password: {
+        isValid: false,
+        input: '',
+      },
       submitButtonDisabled: true,
     };
   }
 
-  handleEmailInput = (value) => {
-    const EMAIL_INPUT_VALUE = value;
-    const CORRECT_EMAIL_FORMACT = /\S+@\S+\.\S+/;
-
-    const regexFormatReached = EMAIL_INPUT_VALUE
-      .match(CORRECT_EMAIL_FORMACT);
-
-    const correctEmailInputReached = regexFormatReached !== null;
-
-    return correctEmailInputReached;
-  };
-
-  handlePasswordLength = (value) => {
-    const CHARACTERS_LENGTH = value.length;
-    const MINIMUM_CHARACTERS_LENGTH = 5;
-
-    const minimumCharactersReached = CHARACTERS_LENGTH < MINIMUM_CHARACTERS_LENGTH;
-
-    return !minimumCharactersReached;
-  };
-
-  updateStateWithInputs = (target) => {
+  inputsToState = ({ target }) => {
     const { type, value } = target;
-    switch (type) {
-    case 'email':
+
+    if (type === 'email') {
       this.setState({
-        email: value,
+        email: {
+          input: { value },
+          isValid: this.emailVerificator(value),
+        },
       });
-      break;
-    case 'password':
-      this.setState({
-        password: value,
-      });
-      break;
-    default: console.log('Erro no parâmetro da função');
-      break;
     }
+
+    if (type === 'password') {
+      this.setState({
+        password: {
+          input: { value },
+          isValid: this.passwordVerificator(value),
+        },
+      });
+    }
+
+    this.buttonVerificator();
   };
 
-  verifyEmailAndPassWord = ({ target }) => {
-    this.updateStateWithInputs(target);
-    const { email, password } = this.state;
-    const correctEmail = this.handleEmailInput(email);
-    const correctPassword = this.handlePasswordLength(password);
+  emailVerificator = (email) => {
+    const emailInput = email;
 
-    const allInputsInCorrectFormat = correctEmail && correctPassword;
+    const regexFormatReached = emailInput.toString().match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
+
+    const correctEmailReached = regexFormatReached !== null;
+    console.log(correctEmailReached);
+
+    return correctEmailReached; // retorna true ou false
+  };
+
+  passwordVerificator = (password) => {
+    const CHARACTERS_LENGTH = password.length;
+    const MINIMUM_CHARACTERS_LENGTH = 6;
+
+    const correctPasswordReached = CHARACTERS_LENGTH >= MINIMUM_CHARACTERS_LENGTH;
+
+    return correctPasswordReached; // retorna true ou false
+  };
+
+  buttonVerificator = () => {
+    const { email, password } = this.state;
+
+    const activatedButton = email.isValid && password.isValid;
 
     this.setState({
-      submitButtonDisabled: !allInputsInCorrectFormat,
+      submitButtonDisabled: !activatedButton,
     });
   };
 
@@ -76,7 +84,7 @@ class WalletForm extends Component {
             type="email"
             id="email-input"
             data-testid="email-input"
-            onChange={ this.verifyEmailAndPassWord }
+            onChange={ this.inputsToState }
             required
           />
         </label>
@@ -88,7 +96,7 @@ class WalletForm extends Component {
             type="password"
             id="password-input"
             data-testid="password-input"
-            onChange={ this.verifyEmailAndPassWord }
+            onChange={ this.inputsToState }
             required
           />
         </label>
