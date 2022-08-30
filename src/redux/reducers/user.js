@@ -1,10 +1,12 @@
+import { GET_USER_EMAIL } from '../actions/index';
+
 const INITIAL_STATE = {
-  email: 'peksks',
+  email: 'alguem@algumacoisa.com',
 };
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'LOGIN':
+  case GET_USER_EMAIL:
     return {
       ...state,
       email: action.email,
