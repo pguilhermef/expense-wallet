@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getUserEmail } from '../redux/actions';
 
 class WalletForm extends Component {
   constructor() {
@@ -72,8 +75,14 @@ class WalletForm extends Component {
 
   render() {
     const {
+      email,
       submitButtonDisabled,
     } = this.state;
+
+    const {
+      sendEmailToGlobalState,
+      history,
+    } = this.props;
 
     return (
       <form>
@@ -104,6 +113,10 @@ class WalletForm extends Component {
         <button
           type="submit"
           disabled={ submitButtonDisabled }
+          onClick={ () => {
+            sendEmailToGlobalState(email);
+            history.push('carteira');
+          } }
         >
           Entrar
         </button>
@@ -112,4 +125,17 @@ class WalletForm extends Component {
   }
 }
 
-export default WalletForm;
+WalletForm.propTypes = {
+  sendEmailToGlobalState: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  sendEmailToGlobalState: (email) => {
+    dispatch(getUserEmail(email));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(WalletForm);
