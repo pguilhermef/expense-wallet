@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import WalletForm from './components/WalletForm';
+import Login from './pages/Login';
 
 function App() {
   return (
     <Switch>
-      <Route exact path="/" component={ WalletForm } />
+      <Route exact path="/" component={ Login } />
     </Switch>
   );
 }
