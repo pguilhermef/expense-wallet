@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 
 class Header extends Component {
   render() {
+    const { email } = this.props;
     return (
-      <div>Header</div>
+      <div>{email}</div>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+});
+
+export default (mapStateToProps)(Header);
