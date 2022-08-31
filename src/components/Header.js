@@ -6,11 +6,21 @@ class Header extends Component {
   render() {
     const { email } = this.props;
     return (
-      <p data-testid="email-field">
-        Email:
-        {' '}
-        {email}
-      </p>
+      <section>
+        <p data-testid="email-field">
+          Email:
+          {' '}
+          {email}
+        </p>
+        <div>
+          <p data-testid="header-currency-field">
+            BRL
+          </p>
+          <p data-testid="total-field">
+            0
+          </p>
+        </div>
+      </section>
     );
   }
 }
