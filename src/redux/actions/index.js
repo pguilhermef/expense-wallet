@@ -36,3 +36,10 @@ export const requestCurrenciesThunk = () => async (dispatch) => {
     dispatch(getCurrenciesFailure(error.message));
   }
 };
+
+export const GET_EXPENSE = 'GET_EXPENSE';
+
+export const getExpense = (expense) => ({
+  type: GET_EXPENSE,
+  expense,
+});
