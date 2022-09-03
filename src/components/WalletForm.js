@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { requestCurrenciesThunk } from '../redux/actions';
+import { getExpense, requestCurrenciesThunk } from '../redux/actions';
 
 export class WalletForm extends Component {
   constructor() {
@@ -28,6 +28,31 @@ export class WalletForm extends Component {
     this.setState({
       [inputCategory]: value,
     });
+  };
+
+  sendExpenseToGlobalState = () => {
+    const {
+      dispatch,
+      expenses,
+    } = this.props;
+    const {
+      valueOfDespense,
+      currencyOfDespense,
+      paymentMethod,
+      descriptionOfDespense,
+      categoryTag,
+    } = this.state;
+
+    const expense = {
+      id: expenses.length,
+      valueOfDespense,
+      currencyOfDespense,
+      paymentMethod,
+      descriptionOfDespense,
+      categoryTag,
+    };
+
+    dispatch(getExpense(expense));
   };
 
   render() {
@@ -107,7 +132,9 @@ export class WalletForm extends Component {
           </option>
         </select>
 
-        <button>Adicionar despesa</button>
+        <button type="submit" onClick={ this.sendExpenseToGlobalState }>
+          Adicionar despesa
+        </button>
       </section>
     );
   }
@@ -115,6 +142,7 @@ export class WalletForm extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(WalletForm);
@@ -123,4 +151,12 @@ WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(String).isRequired,
   map: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  expenses: PropTypes.shape({
+    valueOfDespense: PropTypes.number.isRequired,
+    currencyOfDespense: PropTypes.string.isRequired,
+    paymentMethod: PropTypes.string.isRequired,
+    descriptionOfDespense: PropTypes.string.isRequired,
+    categoryTag: PropTypes.string.isRequired,
+    length: PropTypes.number.isRequired,
+  }).isRequired,
 };
