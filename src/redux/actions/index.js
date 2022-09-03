@@ -29,7 +29,9 @@ export const requestCurrenciesThunk = () => async (dispatch) => {
   dispatch(getCurrencies());
   try {
     const allCurrencies = await getAllCurrencies();
-    dispatch(getCurrenciesSucess(allCurrencies));
+    const currenciesCode = Object.keys(allCurrencies)
+      .filter((currencyCode) => currencyCode !== 'USDT');
+    return dispatch(getCurrenciesSucess(currenciesCode));
   } catch (error) {
     dispatch(getCurrenciesFailure(error.message));
   }
