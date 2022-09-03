@@ -8,7 +8,10 @@ export class WalletForm extends Component {
     super();
 
     this.state = {
+      valueOfDespense: 0,
+      currencyOfDespense: 'USD',
       paymentMethod: 'Dinheiro',
+      descriptionOfDespense: '',
       categoryTag: 'Alimentação',
     };
   }
@@ -18,21 +21,12 @@ export class WalletForm extends Component {
     dispatch(requestCurrenciesThunk());
   }
 
-  handlePaymentMethod = ({ target }) => {
-    const { value } = target;
-    const paymentMethod = value;
+  handleInputChange = ({ target }) => {
+    const { value, id } = target;
+    const inputCategory = id;
 
     this.setState({
-      paymentMethod,
-    });
-  };
-
-  handleCategoryTag = ({ target }) => {
-    const { value } = target;
-    const categoryTag = value;
-
-    this.setState({
-      categoryTag,
+      [inputCategory]: value,
     });
   };
 
@@ -40,16 +34,21 @@ export class WalletForm extends Component {
     const { currencies } = this.props;
     return (
       <section>
-        <label htmlFor="value-input">
+        <label htmlFor="valueOfDespense">
           Valor:
           <input
-            id="value-input"
+            id="valueOfDespense"
             type="number"
             data-testid="value-input"
+            onChange={ this.handleInputChange }
           />
         </label>
 
-        <select data-testid="currency-input">
+        <select
+          id="currencyOfDespense"
+          data-testid="currency-input"
+          onChange={ this.handleInputChange }
+        >
           { currencies.map((currency) => (
             <option key={ currency }>
               {' '}
@@ -60,7 +59,8 @@ export class WalletForm extends Component {
 
         <select
           data-testid="method-input"
-          onChange={ this.handlePaymentMethod }
+          id="paymentMethod"
+          onChange={ this.handleInputChange }
         >
           <option>
             Dinheiro
@@ -73,18 +73,22 @@ export class WalletForm extends Component {
           </option>
         </select>
 
-        <label htmlFor="description-input">
+        <label
+          htmlFor="descriptionOfDespense"
+          onChange={ this.handleInputChange }
+        >
           Descrição
           <input
-            id="description-input"
+            id="descriptionOfDespense"
             type="text"
             data-testid="description-input"
           />
         </label>
 
         <select
+          id="categoryTag"
           data-testid="tag-input"
-          onChange={ this.handleCategoryTag }
+          onChange={ this.handleInputChange }
         >
           <option>
             Alimentação
@@ -102,6 +106,8 @@ export class WalletForm extends Component {
             Saúde
           </option>
         </select>
+
+        <button>Adicionar despesa</button>
       </section>
     );
   }
