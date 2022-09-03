@@ -1,8 +1,13 @@
-import { GET_CURRENCIES, GET_CURRENCY_FAILURE, GET_CURRENCY_SUCCESS } from '../actions';
+import {
+  GET_CURRENCIES,
+  GET_CURRENCY_FAILURE,
+  GET_CURRENCY_SUCCESS,
+  GET_EXPENSE,
+} from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
-  // expenses: [],
+  expenses: [],
   // editor: false,
   // idToEdit: 0,
   error: null,
@@ -18,13 +23,17 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       currencies: action.currencies,
-      // expenses: action.expenses,
       error: null,
     };
   case GET_CURRENCY_FAILURE:
     return {
       ...state,
       error: action.error,
+    };
+  case GET_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expense],
     };
   default:
     return state;
