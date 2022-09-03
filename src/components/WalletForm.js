@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { requestCurrenciesThunk } from '../redux/actions';
@@ -40,14 +40,6 @@ export class WalletForm extends Component {
     const { currencies } = this.props;
     return (
       <section>
-        <p>
-          Bem vindo, essa é sua moeda:
-          {' '}
-          { currencies[0] }
-        </p>
-
-        { console.log(currencies) }
-
         <label htmlFor="value-input">
           Valor:
           <input
@@ -58,12 +50,12 @@ export class WalletForm extends Component {
         </label>
 
         <select data-testid="currency-input">
-          <option>
-            OLHA O README REQ 3
-          </option>
-          <option>
-            BRL
-          </option>
+          { currencies.map((currency) => (
+            <option key={ currency }>
+              {' '}
+              {currency}
+              {' '}
+            </option>))}
         </select>
 
         <select
@@ -72,6 +64,12 @@ export class WalletForm extends Component {
         >
           <option>
             Dinheiro
+          </option>
+          <option>
+            Cartão de crédito
+          </option>
+          <option>
+            Cartão de débito
           </option>
         </select>
 
@@ -115,6 +113,8 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(WalletForm);
 
-// WalletForm.propTypes = {
-
-// };
+WalletForm.propTypes = {
+  currencies: PropTypes.arrayOf(String).isRequired,
+  map: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
