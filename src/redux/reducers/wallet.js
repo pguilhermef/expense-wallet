@@ -14,7 +14,8 @@ export const wallet = (state = INITIAL_STATE, action) => {
   case GET_CURRENCY_SUCCESS:
     return {
       ...state,
-      currencies: action.email,
+      currencies: action.currencies,
+      error: null,
     };
   case GET_CURRENCY_FAILURE:
     return {
