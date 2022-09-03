@@ -1,5 +1,7 @@
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { requestCurrenciesThunk } from '../redux/actions';
 
 export class WalletForm extends Component {
   constructor() {
@@ -9,6 +11,11 @@ export class WalletForm extends Component {
       paymentMethod: 'Dinheiro',
       categoryTag: 'Alimentação',
     };
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(requestCurrenciesThunk());
   }
 
   handlePaymentMethod = ({ target }) => {
@@ -30,8 +37,17 @@ export class WalletForm extends Component {
   };
 
   render() {
+    const { currencies } = this.props;
     return (
       <section>
+        <p>
+          Bem vindo, essa é sua moeda:
+          {' '}
+          { currencies[0] }
+        </p>
+
+        { console.log(currencies) }
+
         <label htmlFor="value-input">
           Valor:
           <input
@@ -56,12 +72,6 @@ export class WalletForm extends Component {
         >
           <option>
             Dinheiro
-          </option>
-          <option>
-            Cartão de crédito
-          </option>
-          <option>
-            Cartão de débito
           </option>
         </select>
 
@@ -99,7 +109,11 @@ export class WalletForm extends Component {
   }
 }
 
-export default WalletForm;
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
+export default connect(mapStateToProps)(WalletForm);
 
 // WalletForm.propTypes = {
 
