@@ -2,6 +2,9 @@ import { GET_CURRENCIES, GET_CURRENCY_FAILURE, GET_CURRENCY_SUCCESS } from '../a
 
 const INITIAL_STATE = {
   currencies: [],
+  expenses: [],
+  editor: false,
+  idToEdit: 0,
   error: null,
 };
 
