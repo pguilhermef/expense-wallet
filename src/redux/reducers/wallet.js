@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   error: null,
 };
 
-export const wallet = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_CURRENCIES:
     return {
