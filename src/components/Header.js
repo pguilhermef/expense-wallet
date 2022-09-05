@@ -4,34 +4,28 @@ import PropTypes from 'prop-types';
 
 class Header extends Component {
   handleSumOfExpenses = (expenses) => {
-    const sumOfExpense = expenses
-      .reduce((acc, curr) => {
-        const result = Number(acc) + Number(curr.value);
+    const valuesConverted = expenses
+      .map((expense) => {
+        const currencyVariation = Object.values(expense.exchangeRates)
+          .find((currency) => currency.code === expense.currency).ask;
 
-        return parseFloat(result).toFixed(2);
-      }, 0);
+        return expense.value * currencyVariation;
+      });
 
-    return sumOfExpense;
+    return valuesConverted
+      .reduce((acc, curr) => acc + curr, 0);
   };
 
   render() {
     const { email, expenses } = this.props;
     return (
       <section>
-        <p data-testid="email-field">
-          Email:
-          {' '}
-          {email}
-        </p>
         <div>
-          <p data-testid="header-currency-field">
-            BRL
-          </p>
-          <p data-testid="total-field">
-            {
-              this.handleSumOfExpenses(expenses)
-            }
-          </p>
+          <span>Olá, </span>
+          <span data-testid="email-field">{ email }</span>
+          <span> Despesa Total: </span>
+          <span data-testid="total-field">{ this.handleSumOfExpenses(expenses) }</span>
+          <span data-testid="header-currency-field">BRL</span>
         </div>
       </section>
     );
@@ -43,9 +37,9 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Header);
-
 Header.propTypes = {
   email: PropTypes.string,
   expenses: PropTypes.arrayOf(PropTypes.object),
 }.isRequired;
+
+export default connect(mapStateToProps)(Header);
