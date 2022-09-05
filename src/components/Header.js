@@ -13,11 +13,19 @@ class Header extends Component {
     return (
       <section>
         <div>
-          <span>Olá, </span>
-          <span data-testid="email-field">{ email }</span>
-          <span> Despesa Total: </span>
-          <span data-testid="total-field">{ parseFloat(sumOfExpenses).toFixed(2) }</span>
-          <span data-testid="header-currency-field">BRL</span>
+          <div>
+            <span>Olá, </span>
+            <span data-testid="email-field">{ email }</span>
+          </div>
+          <div>
+            <span> Despesa Total: </span>
+            <span data-testid="total-field">
+              {
+                parseFloat(sumOfExpenses).toFixed(2)
+              }
+            </span>
+            <span data-testid="header-currency-field">BRL</span>
+          </div>
         </div>
       </section>
     );
