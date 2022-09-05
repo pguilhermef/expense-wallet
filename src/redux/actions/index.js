@@ -1,4 +1,4 @@
-import getAllCurrencies from '../../services/Get_Currencies';
+import getApiCurrencies from '../../services/Get_Currencies';
 
 export const GET_USER_EMAIL = 'GET_USER_EMAIL';
 
@@ -29,7 +29,7 @@ export const getCurrenciesFailure = (error) => ({
 export const requestCurrenciesThunk = () => async (dispatch) => {
   dispatch(getCurrencies());
   try {
-    const allCurrencies = await getAllCurrencies();
+    const allCurrencies = await getApiCurrencies();
     return dispatch(getCurrenciesSucess(allCurrencies));
   } catch (error) {
     dispatch(getCurrenciesFailure(error.message));
