@@ -17,7 +17,8 @@ export const getCurrencies = () => ({
 
 export const getCurrenciesSucess = (currencies) => ({
   type: GET_CURRENCY_SUCCESS,
-  currencies,
+  currencies: Object.keys(currencies)
+    .filter((currencyCode) => currencyCode !== 'USDT'),
 });
 
 export const getCurrenciesFailure = (error) => ({
