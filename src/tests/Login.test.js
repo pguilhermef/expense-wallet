@@ -4,19 +4,15 @@ import App from '../App';
 import mockData from './helpers/mockData';
 import renderWithRouterAndRedux from './helpers/renderWith';
 
-const emailInput = screen.getByTestId('email-input');
-const passwordInput = screen.getByTestId('password-input');
-const loginButton = screen.getByRole('button', { name: /Entrar/i });
-
-const correctEmail = 'batmanRaivoso@trybe.com';
-const correctPassword = 'avingancanuncaeplena';
-
 describe('Testa a página de Login', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(mockData),
     }));
   });
+
+  const emailTestId = 'email-input';
+  const passwordTestId = 'password-input';
 
   test('Verifica se a página de Login está na url "/"', () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -28,6 +24,10 @@ describe('Testa a página de Login', () => {
   test('Testa se existem um input de email e um de senha', () => {
     renderWithRouterAndRedux(<App />);
 
+    const emailInput = screen.getByTestId(emailTestId);
+    const passwordInput = screen.getByTestId(passwordTestId);
+    const loginButton = screen.getByRole('button', { name: /Entrar/i });
+
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(loginButton).toBeInTheDocument();
@@ -35,6 +35,13 @@ describe('Testa a página de Login', () => {
 
   test('Testa se ao digitar email e senha corretos, o botão é habilitado', () => {
     renderWithRouterAndRedux(<App />);
+
+    const correctEmail = 'batmanRaivoso@trybe.com';
+    const correctPassword = 'avingancanuncaeplena';
+
+    const emailInput = screen.getByTestId(emailTestId);
+    const passwordInput = screen.getByTestId(passwordTestId);
+    const loginButton = screen.getByRole('button', { name: /Entrar/i });
 
     expect(emailInput.type).toBe('email');
     expect(passwordInput.type).toBe('password');
@@ -46,6 +53,13 @@ describe('Testa a página de Login', () => {
 
   test('Testa se o botão `Entrar` redireciona para rota correta', () => {
     const { history } = renderWithRouterAndRedux(<App />);
+
+    const correctEmail = 'batmanRaivoso@trybe.com';
+    const correctPassword = 'avingancanuncaeplena';
+
+    const emailInput = screen.getByTestId(emailTestId);
+    const passwordInput = screen.getByTestId(passwordTestId);
+    const loginButton = screen.getByRole('button', { name: /entrar/i });
 
     userEvent.type(emailInput, correctEmail);
     userEvent.type(passwordInput, correctPassword);
