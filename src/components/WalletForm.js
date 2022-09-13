@@ -78,41 +78,47 @@ export class WalletForm extends Component {
           />
         </label>
 
-        <select
-          id="currency"
-          data-testid="currency-input"
-          onChange={ this.handleInputChange }
-          value={ currency }
-        >
-          { currencies.map((currencyCode) => (
-            <option key={ currencyCode }>
-              {' '}
-              {currencyCode}
-              {' '}
-            </option>))}
-        </select>
+        <label htmlFor="currency">
+          Moeda:
+          <select
+            id="currency"
+            data-testid="currency-input"
+            onChange={ this.handleInputChange }
+            value={ currency }
+          >
+            { currencies.map((currencyCode) => (
+              <option key={ currencyCode }>
+                {' '}
+                {currencyCode}
+                {' '}
+              </option>))}
+          </select>
+        </label>
 
-        <select
-          data-testid="method-input"
-          id="method"
-          onChange={ this.handleInputChange }
-          value={ method }
-        >
-          <option>
-            Dinheiro
-          </option>
-          <option>
-            Cartão de crédito
-          </option>
-          <option>
-            Cartão de débito
-          </option>
-        </select>
+        <label htmlFor="method">
+          Método de pagamento
+          <select
+            data-testid="method-input"
+            id="method"
+            onChange={ this.handleInputChange }
+            value={ method }
+          >
+            <option>
+              Dinheiro
+            </option>
+            <option>
+              Cartão de crédito
+            </option>
+            <option>
+              Cartão de débito
+            </option>
+          </select>
+        </label>
 
         <label
           htmlFor="description"
         >
-          Descrição
+          Descrição:
           <input
             id="description"
             type="text"
@@ -122,28 +128,31 @@ export class WalletForm extends Component {
           />
         </label>
 
-        <select
-          id="tag"
-          data-testid="tag-input"
-          onChange={ this.handleInputChange }
-          value={ tag }
-        >
-          <option>
-            Alimentação
-          </option>
-          <option>
-            Lazer
-          </option>
-          <option>
-            Trabalho
-          </option>
-          <option>
-            Transporte
-          </option>
-          <option>
-            Saúde
-          </option>
-        </select>
+        <label htmlFor="tag">
+          Tag:
+          <select
+            id="tag"
+            data-testid="tag-input"
+            onChange={ this.handleInputChange }
+            value={ tag }
+          >
+            <option>
+              Alimentação
+            </option>
+            <option>
+              Lazer
+            </option>
+            <option>
+              Trabalho
+            </option>
+            <option>
+              Transporte
+            </option>
+            <option>
+              Saúde
+            </option>
+          </select>
+        </label>
 
         <button type="submit" onClick={ this.sendExpenseToGlobalState }>
           Adicionar despesa
