@@ -5,6 +5,8 @@ import renderWithRouterAndRedux from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
 import mockData from './helpers/mockData';
 
+const DESCRICAO_DA_EMPRESA = 'Descrição da despesa';
+
 const STATE = {
   user: {
     email: 'trybe@wallet.com',
@@ -37,7 +39,7 @@ const STATE = {
         currency: 'USD',
         method: 'Dinheiro',
         tag: 'Saúde',
-        description: 'Descrição da despesa',
+        description: DESCRICAO_DA_EMPRESA,
         exchangeRates: mockData,
       },
       {
@@ -92,7 +94,7 @@ describe('Testa a página Wallet', () => {
     const buttonAddExpense = screen.getByRole('button', { name: BUTTON_ADD_TEST_ID });
 
     userEvent.type(inputValue, '20');
-    userEvent.type(inputDescription, 'Descrição da despesa');
+    userEvent.type(inputDescription, DESCRICAO_DA_EMPRESA);
     userEvent.click(buttonAddExpense);
 
     const expense = [
@@ -102,7 +104,7 @@ describe('Testa a página Wallet', () => {
         currency: 'USD',
         method: 'Dinheiro',
         tag: 'Saúde',
-        description: 'Descrição da despesa',
+        description: DESCRICAO_DA_EMPRESA,
         exchangeRates: mockData,
       },
     ];
