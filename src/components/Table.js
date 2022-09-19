@@ -15,9 +15,10 @@ class Table extends Component {
   deleteButton = ({ target }) => {
     const { id } = target;
     const { expenses, dispatch } = this.props;
-    console.log(expenses);
-    const filterExpenses = expenses.filter((item) => item.id !== Number(id));
-    dispatch(deleteExpense(filterExpenses));
+    // console.log(expenses);
+    const filteredExpenses = expenses.filter((item) => item.id !== Number(id));
+    console.log(filteredExpenses);
+    dispatch(deleteExpense(filteredExpenses));
   };
 
   render() {
@@ -39,8 +40,8 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          { expenses.map((expense, index) => (
-            <tr key={ index }>
+          { expenses.map((expense) => (
+            <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
               <td>{expense.method}</td>
