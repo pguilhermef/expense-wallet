@@ -42,3 +42,10 @@ export const getExpense = (expense) => ({
   type: GET_EXPENSE,
   expense,
 });
+
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
+export const deleteExpense = (expense) => ({
+  type: DELETE_EXPENSE,
+  expense,
+});

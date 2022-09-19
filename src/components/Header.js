@@ -19,11 +19,7 @@ class Header extends Component {
           </div>
           <div>
             <span> Despesa Total: </span>
-            <span data-testid="total-field">
-              {
-                parseFloat(sumOfExpenses).toFixed(2)
-              }
-            </span>
+            <span data-testid="total-field">{ sumOfExpenses.toFixed(2) }</span>
             <span data-testid="header-currency-field">BRL</span>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../redux/actions';
 
 class Table extends Component {
   currencyName = (exchangeRates, expenseCurrency) => {
@@ -9,6 +10,14 @@ class Table extends Component {
       .find((currency) => currency.code === expenseCurrency).name;
 
     return currencyName;
+  };
+
+  deleteButton = ({ target }) => {
+    const { id } = target;
+    const { expenses, dispatch } = this.props;
+    console.log(expenses);
+    const filterExpenses = expenses.filter((item) => item.id !== Number(id));
+    dispatch(deleteExpense(filterExpenses));
   };
 
   render() {
@@ -49,6 +58,16 @@ class Table extends Component {
                   .value).toFixed(2) }
               </td>
               <td>Real</td>
+              <td>
+                <button
+                  type="button"
+                  data-testid="delete-btn"
+                  id={ expense.id }
+                  onClick={ this.deleteButton }
+                >
+                  Excluir
+                </button>
+              </td>
             </tr>
           )) }
         </tbody>
@@ -58,8 +77,12 @@ class Table extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  expenses: state.wallet.expenses,
+  ...state.wallet,
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   deleteTableExpense: (expense) => dispatch(deleteExpense(expense)),
+// });
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object),
