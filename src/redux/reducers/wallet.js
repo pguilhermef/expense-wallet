@@ -35,12 +35,14 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...state.expenses, action.expense],
     };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: action.expense,
+    };
   default:
     return state;
   }
 };
 
 export default wallet;
-
-
-// COLOQUEI DUAS FUNÇÕES BUTTON DELETE E BUTTON EDIT NA FUNÇÃO. LEMBRAR DE TROCAR OS NOMES DENTRO DA FUNÇÃO.
