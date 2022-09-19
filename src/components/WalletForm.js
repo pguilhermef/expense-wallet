@@ -154,7 +154,11 @@ export class WalletForm extends Component {
           </select>
         </label>
 
-        <button type="submit" onClick={ this.sendExpenseToGlobalState }>
+        <button
+          data-testid="add-input-button"
+          type="submit"
+          onClick={ this.sendExpenseToGlobalState }
+        >
           Adicionar despesa
         </button>
       </section>
