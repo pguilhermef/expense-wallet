@@ -29,20 +29,20 @@ const WALLET_DATA = {
   editor: false,
   idToEdit: 0 };
 
-const ZERO_STATE = {
-  currencies: availableCurrencies,
-  expenses: [
-    {
-      id: 0,
-      value: '0',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: ALIMENTACAO,
-      description: '',
-      exchangeRates: mockData,
-    }],
-  editor: false,
-  idToEdit: 0 };
+// const ZERO_STATE = {
+//   currencies: availableCurrencies,
+//   expenses: [
+//     {
+//       id: 0,
+//       value: '0',
+//       currency: 'USD',
+//       method: 'Dinheiro',
+//       tag: ALIMENTACAO,
+//       description: '',
+//       exchangeRates: mockData,
+//     }],
+//   editor: false,
+//   idToEdit: 0 };
 
 describe('Testes do component WalletForm.js', () => {
   it('o componente WalletForm.js é renderizado no endereço correto', () => {
@@ -101,7 +101,7 @@ describe('Testes do component WalletForm.js', () => {
       json: async () => mockData,
     }));
 
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'], initialState: { wallet: ZERO_STATE } });
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
 
     const valueInput = screen.getByTestId(VALUE_INPUT_ID);
     const descriptionInput = screen.getByTestId(DESCRIPTION_INPUT_ID);
@@ -132,8 +132,6 @@ describe('Testes do component WalletForm.js', () => {
         }],
       editor: false,
       idToEdit: 0 };
-
-    const ZERO_STATE = get
 
     expect(initialState).toBe(state);
   });
