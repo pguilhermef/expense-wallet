@@ -15,8 +15,6 @@ const TAG_INPUT_TESTID = 'tag-input';
 const DESCRIPTION_INPUT_TESTID = 'description-input';
 const ALIMENTACAO = 'Alimentação';
 
-// precisei de muita ajuda nesse requisito
-
 const availableCurrencies = Object.keys(mockData).filter((e) => e !== 'USDT');
 
 const WALLET_DATA = {
@@ -34,15 +32,16 @@ const WALLET_DATA = {
   editor: false,
   idToEdit: 0 };
 
-describe('Testa o componente Table', () => {
+describe('Testes do componente Table ', () => {
   it('o componente é renderizado na rota correta', () => {
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+    const { history } = renderWithRouterAndRedux(<App />);
+    history.push('/carteira');
 
     const table = screen.getByRole('table');
     expect(table).toBeInTheDocument();
   });
 
-  it('Testa se o componente é rendenizado', () => {
+  it('É renderizado', () => {
     renderWithRouterAndRedux(<Table />);
     const tableInfos = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda', 'Câmbio utilizado', 'Valor convertido', 'Moeda de conversão', 'Editar/Excluir'];
 
@@ -50,14 +49,14 @@ describe('Testa o componente Table', () => {
       .getByText(element)).toBeInTheDocument());
   });
 
-  it('Testa se as despesas salvas são mostradas na tela', () => {
+  it('As despesas salvas são renderizadas na tela', () => {
     renderWithRouterAndRedux(<Table />, { initialState: { wallet: WALLET_DATA } });
 
-    const descriptionOfExpense = screen.getByText(/info/);
-    expect(descriptionOfExpense).toBeInTheDocument();
+    const descriptionInfo = screen.getByText(/info/);
+    expect(descriptionInfo).toBeInTheDocument();
   });
 
-  it('Testa se existe um botão para remover as despesas', async () => {
+  it('Há um botão para remover as despesas adicionadas', async () => {
     global.fetch = jest.fn(async () => ({
       json: async () => mockData,
     }));
@@ -66,15 +65,14 @@ describe('Testa o componente Table', () => {
     const removeBtn = screen.getByTestId(REMOVE_BTN_TESTID);
     expect(removeBtn).toBeInTheDocument();
 
-    const descriptionOfExpense = screen.getByText(/info/);
-    expect(descriptionOfExpense).toBeInTheDocument();
+    const descriptionInfo = screen.getByText(/info/);
+    expect(descriptionInfo).toBeInTheDocument();
 
     userEvent.click(removeBtn);
-    expect(descriptionOfExpense).not.toBeInTheDocument();
+    expect(descriptionInfo).not.toBeInTheDocument();
   });
 
-  // Aplicando TDD e também para o nivel de Branch ser superior a 90%
-  it('Testa se existe um botão para editar as despesas', async () => {
+  it('Há um botão para editar as despesas', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'], initialState: { wallet: WALLET_DATA } });
 
     const editBtn = screen.getByTestId(EDIT_BTN_TESTID);

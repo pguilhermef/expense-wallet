@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getExpense, requestCurrenciesThunk } from '../redux/actions';
+import { getExpense, requestCurrenciesThunk, updateExpense } from '../redux/actions';
 import getApiCurrencies from '../services/Get_Currencies';
+
+const ALIMENTACAO = 'Alimentação';
 
 export class WalletForm extends Component {
   constructor() {
@@ -13,7 +15,7 @@ export class WalletForm extends Component {
       currency: 'USD',
       method: 'Dinheiro',
       description: '',
-      tag: 'Alimentação',
+      tag: ALIMENTACAO,
     };
   }
 
@@ -21,6 +23,28 @@ export class WalletForm extends Component {
     const { dispatch } = this.props;
     dispatch(requestCurrenciesThunk());
   }
+
+  componentDidUpdate(prevProps) {
+    const { editor } = this.props;
+    if (prevProps.editor !== editor) this.enableEditor();
+  }
+
+  enableEditor = () => {
+    const { editor, idToEdit, expenses } = this.props;
+
+    this.setState({
+      value: '',
+      currency: 'USD',
+      description: '',
+      tag: ALIMENTACAO,
+      method: 'Dinheiro',
+    });
+
+    if (editor) {
+      const editExpense = expenses.find((item) => item.id === Number(idToEdit));
+      this.setState({ ...editExpense });
+    }
+  };
 
   handleInputChange = ({ target }) => {
     const { value, id } = target;
@@ -32,7 +56,7 @@ export class WalletForm extends Component {
   };
 
   sendExpenseToGlobalState = async () => {
-    const { dispatch, expenses } = this.props;
+    const { dispatch, expenses, editor, idToEdit } = this.props;
     const {
       value,
       currency,
@@ -51,19 +75,24 @@ export class WalletForm extends Component {
       exchangeRates: await getApiCurrencies(),
     };
 
-    dispatch(getExpense(expense));
+    if (editor) {
+      expense.id = Number(idToEdit);
+      dispatch(updateExpense(expense));
+    } else {
+      dispatch(getExpense(expense));
+    }
 
     this.setState({
       value: '',
       currency: 'USD',
-      method: 'Dinheiro',
       description: '',
-      tag: 'Alimentação',
+      tag: ALIMENTACAO,
+      method: 'Dinheiro',
     });
   };
 
   render() {
-    const { currencies } = this.props;
+    const { currencies, editor } = this.props;
     const { value, currency, method, tag, description } = this.state;
     return (
       <section>
@@ -159,7 +188,7 @@ export class WalletForm extends Component {
           type="submit"
           onClick={ this.sendExpenseToGlobalState }
         >
-          Adicionar despesa
+          {editor ? 'Editar despesa' : 'Adicionar despesas'}
         </button>
       </section>
     );
@@ -169,6 +198,8 @@ export class WalletForm extends Component {
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
+  editor: state.wallet.editor,
+  idToEdit: state.wallet.idToEdit,
 });
 
 export default connect(mapStateToProps)(WalletForm);
