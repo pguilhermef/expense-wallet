@@ -1,16 +1,18 @@
 import {
-  DELETE_EXPENSE,
   GET_CURRENCIES,
   GET_CURRENCY_FAILURE,
   GET_CURRENCY_SUCCESS,
   GET_EXPENSE,
+  DELETE_EXPENSE,
+  EDIT_EXPENSES,
+  UPDATE_EXPENSES,
 } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  // editor: false,
-  // idToEdit: 0,
+  editor: false,
+  idToEdit: 0,
   error: null,
 };
 
@@ -40,6 +42,20 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: action.expense,
+    };
+  case EDIT_EXPENSES:
+    return {
+      ...state,
+      editor: true,
+      idToEdit: action.id,
+    };
+  case UPDATE_EXPENSES:
+    return {
+      ...state,
+      editor: false,
+      expenses: state.expenses.map((element) => (
+        element.id === state.idToEdit ? action.expense : element
+      )),
     };
   default:
     return state;
