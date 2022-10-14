@@ -1,6 +1,4 @@
-# Boas-vindas ao repositório do meu projeto do App de Músicas.
-
-Neste projeto eu criei o TrybeTunes, uma aplicação capaz de reproduzir músicas das mais variadas bandas e artistas, criar uma lista de músicas favoritas e editar o perfil da pessoa usuária logada. Então aqui vai uma listinha do que essa aplicação é capaz de fazer:
+# Boas-vindas ao repositório do meu projeto da Carteira de Despesas.
 
 Neste projeto eu desenvolvi o Trybewallet, uma carteira de controle de gastos com conversor de moedas, que ao utilizar essa aplicação um usuário deverá ser capaz de:
 
